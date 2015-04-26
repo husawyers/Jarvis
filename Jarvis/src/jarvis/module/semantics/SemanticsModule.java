@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jarvis.module;
+package jarvis.module.semantics;
 
+import jarvis.module.Module;
 import java.util.ArrayList;
 
 /**
@@ -47,16 +48,16 @@ public class SemanticsModule extends Module {
             } else {
                 // A is B
                 if(a.getIsA().size() == 1) {
-                    o = a.getName() + " is " + a.getIsA().get(0).getName();
+                    o = a.getIsA().get(0).getName();
                 }
                 // A is B and C
                 else if(a.getIsA().size() == 2) {
-                    o = a.getName() + " is " + a.getIsA().get(0).getName() + " and " + a.getIsA().get(1).getName();
+                    o = a.getIsA().get(0).getName() + " and " + a.getIsA().get(1).getName();
                 }
                 // A is B, C, ..., and Z
                 else {
                     ArrayList<Discrete> isARef = a.getIsA();
-                    o = a.getName() + " is " + isARef.get(0).getName();
+                    o = isARef.get(0).getName();
                     for (int i = 1; i < isARef.size() - 1; i++) {
                         o += ", " + isARef.get(i).getName();
                     }

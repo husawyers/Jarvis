@@ -6,10 +6,13 @@
 package jarvis;
 
 import jarvis.module.Module;
-import jarvis.module.SemanticsModule;
-import jarvis.module.SpeechModule;
+import jarvis.module.semantics.SemanticsModule;
+import jarvis.module.speech.SpeechModule;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+//impl:
+//this is red, did you mean this (trackbar adjustments until object area is <10000), yes (ANN maps HSV values to "red")
 
 /**
  *
@@ -22,7 +25,7 @@ public class Jarvis {
      */
     public static void main(String[] args) {
         // Initialise
-        System.out.println("---JARVIS 1.0");
+        System.out.println("------------------------JARVIS 1.0");
         SpeechModule mouth = new SpeechModule();
         SemanticsModule ears = new SemanticsModule();
         
@@ -31,6 +34,7 @@ public class Jarvis {
         modules.add(ears);
         
         // Run in a input-process-outcome loop
+        System.out.println();
         mouth.speak("Hello, I am Jarvis.");
         Scanner scanner = new Scanner(System.in);
         while(true) {
