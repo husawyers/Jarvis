@@ -6,6 +6,7 @@
 package jarvis;
 
 import jarvis.module.Module;
+import jarvis.module.colourtracking.ColourTrackingModule;
 import jarvis.module.semantics.SemanticsModule;
 import jarvis.module.speech.SpeechModule;
 import java.util.ArrayList;
@@ -13,6 +14,9 @@ import java.util.Scanner;
 
 //impl:
 //this is red, did you mean this (trackbar adjustments until object area is <10000), yes (ANN maps HSV values to "red")
+//bug:
+//colour tracking module shows video capture with a blue tint
+//colour tracking module thread tries to call run after shutdown
 
 /**
  *
@@ -28,10 +32,14 @@ public class Jarvis {
         System.out.println("------------------------JARVIS 1.0");
         SpeechModule mouth = new SpeechModule();
         SemanticsModule ears = new SemanticsModule();
+        ColourTrackingModule eyes = new ColourTrackingModule();
+        Thread thread = new Thread(eyes);
+        thread.start();
         
         ArrayList<Module> modules = new ArrayList<>();
         modules.add(mouth);
         modules.add(ears);
+        modules.add(eyes);
         
         // Run in a input-process-outcome loop
         System.out.println();

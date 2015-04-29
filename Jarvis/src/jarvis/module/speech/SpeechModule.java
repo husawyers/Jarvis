@@ -21,6 +21,7 @@ public class SpeechModule extends Module {
         
         VoiceManager manager = VoiceManager.getInstance();
         voice = manager.getVoice("kevin");
+        
         voice.allocate();
         
         System.out.println("done");
