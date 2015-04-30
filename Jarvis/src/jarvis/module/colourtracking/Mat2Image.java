@@ -36,6 +36,9 @@ public class Mat2Image {
                             BufferedImage.TYPE_3BYTE_BGR);
         }
         BufferedImage getImage(Mat mat){
+//----------Additional line-----------------------------------------------------
+            Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2RGB);
+//------------------------------------------------------------------------------
             getSpace(mat);
             mat.get(0, 0, dat);
             img.getRaster().setDataElements(0, 0, 

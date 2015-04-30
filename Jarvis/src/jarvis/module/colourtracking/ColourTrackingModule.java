@@ -22,6 +22,7 @@ public class ColourTrackingModule extends Module implements Runnable {
     private Panel panel;
     private boolean running;
     private Mat2Image mat2image;
+    private final boolean val;
     
     public ColourTrackingModule() {
         System.out.println("Initialising colour tracking module...");
@@ -36,11 +37,13 @@ public class ColourTrackingModule extends Module implements Runnable {
         // Initialise window
         frame = new JFrame("untitled");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
+        frame.setSize(640, 480);
         panel = new Panel();
         frame.setContentPane(panel);
         frame.setVisible(true);
         running = true;
+        
+        val = true;
         
         System.out.println("done");
     }
@@ -49,9 +52,9 @@ public class ColourTrackingModule extends Module implements Runnable {
     public void shutdown() {
         System.out.println("Shutting down colour tracking module...");
         
-        cap.release();
-        frame.dispose();
         running = false;
+        cap.release(); cap = null;
+        frame.dispose(); frame = null;
         
         System.out.println("done");
     }
@@ -59,9 +62,9 @@ public class ColourTrackingModule extends Module implements Runnable {
     @Override
     public void run() {
         while(running) {
-            cap.read(mat2image.mat);
-            frame.getContentPane().getGraphics().drawImage(mat2image.getImage(mat2image.mat), 0, 0, null);
-            frame.repaint();
+            if(cap != null) cap.read(mat2image.mat);
+            if(cap != null) frame.getContentPane().getGraphics().drawImage(mat2image.getImage(mat2image.mat), 0, 0, null);
+            if(cap != null) frame.repaint();
         }
     }
 }

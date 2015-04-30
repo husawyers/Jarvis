@@ -14,9 +14,6 @@ import java.util.Scanner;
 
 //impl:
 //this is red, did you mean this (trackbar adjustments until object area is <10000), yes (ANN maps HSV values to "red")
-//bug:
-//colour tracking module shows video capture with a blue tint
-//colour tracking module thread tries to call run after shutdown
 
 /**
  *
