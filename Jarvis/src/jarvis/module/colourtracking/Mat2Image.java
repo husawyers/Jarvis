@@ -37,7 +37,7 @@ public class Mat2Image {
         }
         BufferedImage getImage(Mat mat){
 //----------Additional line-----------------------------------------------------
-            Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2RGB);
+            Imgproc.cvtColor(mat, mat, Imgproc.COLOR_RGB2BGR);
 //------------------------------------------------------------------------------
             getSpace(mat);
             mat.get(0, 0, dat);

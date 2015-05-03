@@ -9,6 +9,7 @@ import jarvis.module.Module;
 import java.awt.Panel;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
+import javax.swing.JSlider;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
@@ -24,8 +25,13 @@ public class ColourTrackingModule extends Module implements Runnable {
     private VideoCapture cap;
     private JFrame frame;
     private Panel panel;
+    private JSlider lowH, lowS, lowV, highH, highS, highV;
     private boolean running;
-    private final boolean val;
+    
+    private Mat imageOriginal;
+    private Mat imageHSV;
+    private Mat imageThresholded;
+    private Mat2Image mat2image;
     
     public ColourTrackingModule() {
         System.out.println("Initialising colour tracking module...");
@@ -39,13 +45,22 @@ public class ColourTrackingModule extends Module implements Runnable {
         // Initialise window
         frame = new JFrame("untitled");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(640, 480);
+        frame.setSize(640, 480+50);
         panel = new Panel();
         frame.setContentPane(panel);
+        lowH = new JSlider(JSlider.HORIZONTAL, 0, 179, 0); panel.add(lowH);
+        lowS = new JSlider(JSlider.HORIZONTAL, 0, 255, 0); panel.add(lowS);
+        lowV = new JSlider(JSlider.HORIZONTAL, 0, 255, 0); panel.add(lowV);
+        highH = new JSlider(JSlider.HORIZONTAL, 0, 179, 0); panel.add(highH);
+        highS = new JSlider(JSlider.HORIZONTAL, 0, 255, 0); panel.add(highS);
+        highV = new JSlider(JSlider.HORIZONTAL, 0, 255, 0); panel.add(highV);
         frame.setVisible(true);
         running = true;
         
-        val = true;
+        imageOriginal = new Mat();
+        imageHSV = new Mat();
+        imageThresholded = new Mat();
+        mat2image = new Mat2Image();
         
         System.out.println("done");
     }
@@ -65,14 +80,11 @@ public class ColourTrackingModule extends Module implements Runnable {
     public void run() {
         while(running) {
             // Get webcam image
-            Mat imageOriginal = new Mat();
             if(cap != null) cap.read(imageOriginal);
             // Convert from BGR to HSV
-            Mat imageHSV = new Mat();
-            Imgproc.cvtColor(imageOriginal, imageHSV, Imgproc.COLOR_BGR2HSV);
+            Imgproc.cvtColor(imageOriginal, imageHSV, Imgproc.COLOR_RGB2HSV);
             // Threshold
-            Mat imageThresholded = new Mat();
-            Core.inRange(imageHSV, new Scalar(69, 128, 118), new Scalar(115, 255, 255), imageThresholded);
+            Core.inRange(imageHSV, new Scalar(lowH.getValue(), lowS.getValue(), lowV.getValue()), new Scalar(highH.getValue(), highS.getValue(), highV.getValue()), imageThresholded);
             // Remove small objects in the foreground 'morphological opening'
             Mat structure = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(5, 5));
             Imgproc.erode(imageThresholded, imageThresholded, structure);
@@ -81,9 +93,8 @@ public class ColourTrackingModule extends Module implements Runnable {
             Imgproc.dilate(imageThresholded, imageThresholded, structure);
             Imgproc.erode(imageThresholded, imageThresholded, structure);
             
-            Mat2Image mat2image = new Mat2Image();
-            //if(cap != null) frame.getContentPane().getGraphics().drawImage(mat2image.getImage(imageOriginal), 0, 0, null);
-            if(cap != null) frame.getContentPane().getGraphics().drawImage(mat2image.getImage(imageThresholded), 0, 0, null);
+            Imgproc.cvtColor(imageThresholded, imageThresholded, Imgproc.COLOR_GRAY2RGB);
+            if(cap != null) frame.getContentPane().getGraphics().drawImage(mat2image.getImage(imageThresholded), 0, 50, null);
             if(cap != null) frame.repaint();
         }
     }

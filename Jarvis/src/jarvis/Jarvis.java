@@ -14,9 +14,6 @@ import java.util.Scanner;
 
 //impl:
 //this is red, did you mean this (trackbar adjustments until object area is <10000), yes (ANN maps HSV values to "red")
-//bug:
-//cvtColor bug in ColourTrackingModule
-//memory leak in ColourTrackingModule
 
 /**
  *
