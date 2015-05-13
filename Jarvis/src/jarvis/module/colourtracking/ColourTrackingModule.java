@@ -6,6 +6,7 @@
 package jarvis.module.colourtracking;
 
 import jarvis.module.Module;
+import java.awt.Font;
 import java.awt.Panel;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
@@ -16,6 +17,7 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.highgui.*;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Moments;
 
 /**
  *
@@ -92,6 +94,10 @@ public class ColourTrackingModule extends Module implements Runnable {
             // Remove holes in the foreground 'morphological closing'
             Imgproc.dilate(imageThresholded, imageThresholded, structure);
             Imgproc.erode(imageThresholded, imageThresholded, structure);
+            
+            // Get the spatial moment
+//            Moments moments = Imgproc.moments(imageThresholded);
+//            int area = (int)moments.get_m00();
             
             Imgproc.cvtColor(imageThresholded, imageThresholded, Imgproc.COLOR_GRAY2RGB);
             if(cap != null) frame.getContentPane().getGraphics().drawImage(mat2image.getImage(imageThresholded), 0, 50, null);

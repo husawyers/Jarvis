@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 //impl:
-//this is red, did you mean this (trackbar adjustments until object area is <10000), yes (ANN maps HSV values to "red")
+//this is red, did you mean this, yes
+//  did you mean this= use Evolutionary Algorithm to make trackbar adjustments until spatial moments area is <10000
+//  yes= use Neural Network to map HSV values -> "red"
 
 /**
  *
@@ -33,6 +35,7 @@ public class Jarvis {
         Thread thread = new Thread(eyes);
         thread.start();
         
+        // Register for cleanup later
         ArrayList<Module> modules = new ArrayList<>();
         modules.add(mouth);
         modules.add(ears);
