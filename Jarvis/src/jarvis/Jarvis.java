@@ -5,6 +5,7 @@
  */
 package jarvis;
 
+import jarvis.GA.GA;
 import jarvis.module.Module;
 import jarvis.module.colourtracking.ColourTrackingModule;
 import jarvis.module.semantics.SemanticsModule;
@@ -14,7 +15,7 @@ import java.util.Scanner;
 
 //impl:
 //this is red, did you mean this, yes
-//  did you mean this= use Evolutionary Algorithm to make trackbar adjustments until spatial moments area is <10000
+//  did you mean this= use Genetic Algorithm to make trackbar adjustments until the spatial moments area is <10000
 //  yes= use Neural Network to map HSV values -> "red"
 
 /**
@@ -27,7 +28,7 @@ public class Jarvis {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // Initialise
+        /*// Initialise
         System.out.println("------------------------JARVIS 1.0");
         SpeechModule mouth = new SpeechModule();
         SemanticsModule ears = new SemanticsModule();
@@ -62,6 +63,10 @@ public class Jarvis {
         for (Module module : modules) {
             module.shutdown();
         }
-        modules.clear();
+        modules.clear();*/
+        
+        GA ga = new GA(100, 100);
+        Thread thread = new Thread(ga);
+        thread.run();
     }
 }
