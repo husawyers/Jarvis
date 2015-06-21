@@ -1,3 +1,3 @@
-# Jarvis
+Jarvis
 
-Jarvis is a weak AI that can talk using Text To Speech, and recognise objects using Computer Vision. Runs in NetBeans IDE.
+Jarvis is a weak AI that can do colour recognition using Computer Vision, and simple speech using First-order logic. Runs in NetBeans IDE.
